@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Validate TeX spans against the pinned KaTeX engine, independently of viewers.
-// stdin:  JSON array of TeX source strings
-// stdout: JSON array of {tex, error} for the ones that do not render
+// stdin:  JSON array of {tex, display} objects (a bare string means inline)
+// stdout: JSON array of {tex, display, error} for the ones that do not render
 // See vendor/README.md for why this is KaTeX rather than pandoc's texmath.
 const path = require("path");
 const katex = require(path.join(__dirname, "..", "vendor", "katex.min.js"));
@@ -17,11 +17,13 @@ process.stdin.on("end", () => {
     process.exit(2);
   }
   const bad = [];
-  for (const tex of spans) {
+  for (const span of spans) {
+    const tex = typeof span === "string" ? span : span.tex;
+    const display = typeof span === "string" ? false : Boolean(span.display);
     try {
-      katex.renderToString(tex, { throwOnError: true, strict: false });
+      katex.renderToString(tex, { throwOnError: true, strict: false, displayMode: display });
     } catch (e) {
-      bad.push({ tex, error: String(e.message || e).slice(0, 200) });
+      bad.push({ tex, display, error: String(e.message || e).slice(0, 200) });
     }
   }
   process.stdout.write(JSON.stringify(bad));

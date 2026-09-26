@@ -9,7 +9,7 @@ Write factual coverage, not a fixed word count or a promise of perfect extractio
 ````markdown
 ---
 source: source.pdf
-format: <pdf|docx|html|htm|md|txt|ipynb|rmd|png|jpg|jpeg|gif|bmp|webp|tiff>
+format: <pdf|docx|html|htm|md|txt|ipynb|rmd|png|jpg|jpeg|gif|bmp|tif|tiff>
 converted: YYYY-MM-DD
 category: category/subcategory
 description: "One concise description of this source."

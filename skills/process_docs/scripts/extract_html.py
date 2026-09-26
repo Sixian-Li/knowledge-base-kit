@@ -7,7 +7,9 @@ from bs4 import BeautifulSoup
 import html2text
 
 MIME_EXT = {"image/png": ".png", "image/jpeg": ".jpg", "image/gif": ".gif",
-            "image/webp": ".webp", "image/bmp": ".bmp", "image/tiff": ".tiff"}
+            "image/bmp": ".bmp", "image/tiff": ".tiff"}
+# WebP is absent on purpose: the pinned PyMuPDF cannot decode it, so a worker
+# would reject it later. Failing here asks for a PNG copy up front.
 
 
 def extract(source, output_dir):
@@ -24,7 +26,7 @@ def extract(source, output_dir):
                 mime = header[5:].split(";")[0].lower()
                 ext = MIME_EXT.get(mime)
                 if not ext:
-                    raise ValueError("Unsupported inline image MIME type")
+                    raise ValueError(f"Unsupported inline image type {mime}; supply a PNG/JPEG copy")
                 data = base64.b64decode(payload, validate=True) if ";base64" in header else unquote_to_bytes(payload)
             else:
                 url = urlsplit(src)
@@ -34,8 +36,8 @@ def extract(source, output_dir):
                 if not path.is_relative_to(source.parent):
                     raise ValueError("Image path leaves the source folder")
                 ext, data = path.suffix.lower(), path.read_bytes()
-                if ext not in set(MIME_EXT.values()) | {".jpeg"}:
-                    raise ValueError("Unsupported image format")
+                if ext not in set(MIME_EXT.values()) | {".jpeg", ".tif"}:
+                    raise ValueError(f"Unsupported image format {ext}; supply a PNG/JPEG copy")
             if not data:
                 raise ValueError("Empty image")
             path = output / "images" / f"image_{number}{ext}"

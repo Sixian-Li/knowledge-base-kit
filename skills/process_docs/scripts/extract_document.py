@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import shutil
 import sys
+import zipfile
 
 from _config import load, supported_exts
 
@@ -41,7 +42,10 @@ def extract(source, output, cfg):
         if not load_cells(nb):
             raise ValueError("Notebook contains no cells")
         _, text, sink, stats = notebook(nb, str(output))
-        meta.update(image_files=sink.files, failed_images=sink.failed, notebook=stats)
+        meta.update(image_files=sink.files, failed_images=sink.failed, notebook=stats,
+                    unsupported_outputs=sink.unsupported)
+        if sink.unsupported:
+            meta["warnings"].append("Some visual outputs use unsupported formats (see unsupported_outputs); review them in the source.")
         if stats["outputs_cleared"]:
             meta["warnings"].append("Notebook has no saved outputs; do not infer results or execute it automatically.")
     elif ext in (".docx", ".html", ".htm"):
@@ -83,8 +87,10 @@ def main():
         result = extract(args.source, args.output, load())
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 1 if result["failed_images"] else 0
-    except (OSError, ValueError) as exc:
-        parser.exit(2, f"Extraction failed: {exc}\n")
+    except (OSError, ValueError, RuntimeError, zipfile.BadZipFile) as exc:
+        # Corrupt PDFs raise PyMuPDF's RuntimeError subclasses; a DOCX that is
+        # not a ZIP raises BadZipFile. Report them like any unreadable source.
+        parser.exit(2, f"Extraction failed: {type(exc).__name__}: {exc}\n")
 
 
 if __name__ == "__main__":

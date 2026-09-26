@@ -32,8 +32,8 @@ def extract(source, output_dir):
                     rid = node.get(qn("r:embed"))
                     image = part.related_parts[rid]
                     ext = Path(str(image.partname)).suffix.lower()
-                    if ext not in (".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tiff"):
-                        raise ValueError(f"Unsupported embedded image: {ext}")
+                    if ext not in (".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tif", ".tiff"):
+                        raise ValueError(f"Unsupported embedded image {ext}; export the page or image as PNG")
                     path = output / "images" / f"image_{counter}{ext}"
                     path.parent.mkdir(parents=True, exist_ok=True)
                     path.write_bytes(image.blob)

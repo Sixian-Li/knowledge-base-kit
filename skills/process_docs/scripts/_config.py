@@ -109,7 +109,10 @@ def load(config_path=None):
     cfg["PYTHON"] = sys.executable if cfg["PYTHON"] == "auto" else (shutil.which(os.path.expanduser(cfg["PYTHON"])) or cfg["PYTHON"])
     cfg["CONFIG_PATH"] = str(config_path)
     cfg["SKILL_ROOT_ABS"] = str(SKILL_DIR)
-    cfg["SKILL_ROOT"] = os.path.relpath(SKILL_DIR, root)
+    try:
+        cfg["SKILL_ROOT"] = os.path.relpath(SKILL_DIR, root)
+    except ValueError:  # Windows: skill and workspace on different drives
+        cfg["SKILL_ROOT"] = str(SKILL_DIR)
     cfg["READER_SKILL"] = str(SKILL_DIR.parent / "kb")
     return cfg
 

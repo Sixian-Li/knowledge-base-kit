@@ -15,7 +15,6 @@ SECURITY.md
 THIRD_PARTY_NOTICES.md
 VERSION
 constraints.txt
-docs/announcement-draft.md
 docs/architecture.md
 docs/assets/README.md
 docs/assets/overview.svg
@@ -29,6 +28,7 @@ docs/limitations.md
 docs/maintaining.md
 docs/publishing.md
 docs/release-notes-v0.1.0.md
+docs/release-notes-v0.1.1.md
 docs/troubleshooting.md
 docs/workflows.md
 examples/README.md

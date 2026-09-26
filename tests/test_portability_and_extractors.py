@@ -63,6 +63,23 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(managed.read_text(), "local edits")
         self.assertEqual((self.root / ".kbkit/install.json").read_bytes(), before)
 
+    def test_interrupted_install_can_be_retried(self):
+        with patch.object(Path, "symlink_to", side_effect=OSError("no symlinks")):
+            with self.assertRaises(OSError):
+                init_workspace.install(self.root)
+        self.assertTrue(json.loads((self.root / ".kbkit/install.json").read_text())["pending"])
+        init_workspace.install(self.root)
+        state = json.loads((self.root / ".kbkit/install.json").read_text())
+        self.assertNotIn("pending", state)
+        self.assertTrue((self.root / ".claude/skills/kb").is_symlink())
+
+    def test_installed_files_follow_umask(self):
+        self.install()
+        umask = os.umask(0)
+        os.umask(umask)
+        for name in ("kb.py", "kb.config.yaml", ".kbkit/skills/process_docs/SKILL.md"):
+            self.assertEqual((self.root / name).stat().st_mode & 0o777, 0o666 & ~umask, name)
+
     def test_nonempty_or_symlinked_destination_is_refused(self):
         self.root.mkdir()
         (self.root / "personal.txt").write_text("keep")
@@ -104,6 +121,20 @@ class WorkspaceTests(unittest.TestCase):
         cfg = self.install()
         (self.root / "loop").symlink_to(self.root, target_is_directory=True)
         self.assertEqual(scan(cfg)["documents"], [])
+
+    def test_tree_ignores_attachment_and_readme_links(self):
+        cfg = self.install()
+        category = self.root / "notes"
+        for name in ("a", "b"):
+            (category / name).mkdir(parents=True)
+            (category / name / "full.md").write_text("# Doc\n")
+        (category / "README.md").write_text("# Notes\n")
+        (category / "a/summary.md").write_text(
+            "## References\n\n- [Original](source.pdf)\n- [Category](../README.md)\n"
+            "- [B](../b/summary.md)\n- [Missing](../c/)\n")
+        (category / "b/summary.md").write_text("## References\n\n- [A](../a/full.md#doc)\n")
+        problems = [v["problem"] for v in scan(cfg)["violations"]]
+        self.assertEqual(problems, ["Related Documents points to missing document notes/c"])
 
     def test_manifest_rejects_external_duplicate_and_failed_images(self):
         cfg = self.install()
@@ -175,6 +206,47 @@ class ExtractionTests(unittest.TestCase):
         self.assertFalse(marker.exists())
         self.assertTrue(result["notebook"]["outputs_cleared"])
 
+    def test_webp_is_rejected_before_workers(self):
+        source = self.root / "photo.webp"
+        source.write_bytes(b"RIFF\x00\x00\x00\x00WEBP")
+        with self.assertRaisesRegex(ValueError, "Unsupported format"):
+            extract(source, self.root / "out", self.cfg)
+        html = self.root / "inline.html"
+        html.write_text('<p>Text.</p><img src="data:image/webp;base64,UklGRg==" alt="x">')
+        result = extract(html, self.root / "out_html", self.cfg)
+        self.assertIn("image/webp", result["failed_images"][0]["error"])
+
+    def test_notebook_backticks_and_unsupported_outputs_stay_explicit(self):
+        source = self.root / "fences.ipynb"
+        output = [{"output_type": "stream", "name": "stdout", "text": "```text\nraw\n```\n"},
+                  {"output_type": "display_data", "metadata": {},
+                   "data": {"image/svg+xml": "<svg/>", "text/plain": "<Figure size 640x480 with 1 Axes>"}}]
+        source.write_text(json.dumps({"nbformat": 4, "cells": [
+            {"cell_type": "code", "execution_count": 1, "source": "print('```')", "outputs": output}]}))
+        result = extract(source, self.root / "out", self.cfg)
+        text = Path(result["text_file"]).read_text()
+        self.assertIn("````\n```text\nraw\n```\n````", text)
+        self.assertIn("image/svg+xml not extracted", text)
+        self.assertEqual(result["unsupported_outputs"][0]["mime"], "image/svg+xml")
+        self.assertTrue(result["warnings"])
+        self.assertEqual(unfolded_archives(text), [])
+
+    def test_unreadable_sources_fail_without_traceback(self):
+        cases = {"empty.pdf": b"", "corrupt.pdf": b"%PDF-1.4 not really",
+                 "fake.docx": b"not a zip", "list.ipynb": b"[]"}
+        for name, data in cases.items():
+            with self.subTest(name=name):
+                source = self.root / name
+                source.write_bytes(data)
+                proc = subprocess.run(
+                    [sys.executable, str(ROOT / "skills/process_docs/scripts/extract_document.py"),
+                     str(source), str(self.root / ("out_" + name))],
+                    capture_output=True, text=True,
+                    env={**os.environ, "KB_CONFIG": str(self.root / "kb.config.yaml")})
+                self.assertEqual(proc.returncode, 2, proc.stderr)
+                self.assertIn("Extraction failed", proc.stderr)
+                self.assertNotIn("Traceback", proc.stderr)
+
     def test_existing_output_is_not_overwritten(self):
         output = self.root / "out"
         output.mkdir()
@@ -216,6 +288,18 @@ class ArchiveAndMathTests(unittest.TestCase):
             self.assertIsNone(skip)
 
 
+    def test_display_only_math_is_checked_in_display_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "display.md"
+            path.write_text("$$\nE = mc^2 \\tag{1}\n$$\n\n"
+                            "$$\\begin{align} a &= b \\\\ c &= d \\end{align}$$\n")
+            bad, count, skip = tex_render_errors(path)
+            self.assertIsNone(skip)
+            self.assertEqual((bad, count), ([], 2))
+            path.write_text("Inline $E = mc^2 \\tag{1}$ is not allowed.\n")
+            bad, count, skip = tex_render_errors(path)
+            self.assertEqual(len(bad), 1)
+
 class RmdTests(unittest.TestCase):
     def test_detection_never_executes_source(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -239,6 +323,28 @@ class RmdTests(unittest.TestCase):
             self.assertFalse(result["ok"])
             call.assert_not_called()
 
+
+    def test_default_render_targets_are_fresh(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp) / "source.Rmd"
+            source.write_text("# Title\n")
+            (Path(tmp) / "kb.config.yaml").write_text("KB_ROOT: .\n")
+            targets = []
+
+            def fake_render(path, target, fmt):
+                targets.append(target)
+                Path(target, "out.html").write_text("rendered")
+                return {"ok": True}
+
+            with patch.dict(os.environ, {"KB_CONFIG": str(Path(tmp) / "kb.config.yaml")}), \
+                    patch.object(render_rmd, "r_toolchain", return_value={}), \
+                    patch.object(render_rmd, "render", side_effect=fake_render):
+                for _ in range(2):
+                    with patch.object(sys, "argv", ["render_rmd.py", str(source), "--render"]), \
+                            self.assertRaises(SystemExit) as result:
+                        render_rmd.main()
+                    self.assertEqual(result.exception.code, 0)
+            self.assertEqual(len(set(targets)), 2)
 
 if __name__ == "__main__":
     unittest.main()

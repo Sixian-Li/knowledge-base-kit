@@ -12,6 +12,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _config
@@ -58,7 +59,7 @@ def r_toolchain():
              'rownames(installed.packages()), collapse=" "))')
     try:
         result = subprocess.run([rscript, "--vanilla", "-e", probe], capture_output=True,
-                                text=True, timeout=120)
+                                text=True, encoding="utf-8", errors="replace", timeout=120)
     except (subprocess.TimeoutExpired, OSError) as exc:
         info["error"] = f"probe failed: {exc}"
         return info
@@ -96,7 +97,7 @@ def render(rmd_path, out_dir, fmt=None):
 
     try:
         result = subprocess.run([rscript, "--vanilla", "-e", expr], capture_output=True,
-                                text=True, timeout=RENDER_TIMEOUT)
+                                text=True, encoding="utf-8", errors="replace", timeout=RENDER_TIMEOUT)
     except subprocess.TimeoutExpired:
         return {"ok": False, "error": f"render timed out after {RENDER_TIMEOUT}s"}
     except OSError as exc:
@@ -145,7 +146,12 @@ def main():
 
     if do_render:
         cfg = _config.load()
-        target = out_dir or os.path.join(cfg["WORK_DIR_ABS"], "_rmd_render")
+        # A fresh default target per render, so a second render never collides with the first.
+        if out_dir:
+            target = out_dir
+        else:
+            os.makedirs(cfg["WORK_DIR_ABS"], exist_ok=True)
+            target = tempfile.mkdtemp(prefix="_rmd_render_", dir=cfg["WORK_DIR_ABS"])
         report["rendered"] = render(rmd_path, target, fmt)
 
     print(json.dumps(report, ensure_ascii=False, indent=2))

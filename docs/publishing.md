@@ -70,8 +70,8 @@ repository settings. Review GitHub's
 before confirming. Public disclosure is not reliably reversible by changing it
 back to private.
 
-Create tag `v0.1.0`, push it, and create a GitHub Release using
-[the prepared release notes](release-notes-v0.1.0.md). Attach the clean ZIP and
+Create a tag such as `v0.1.1`, push it, and create a GitHub Release using the
+matching prepared notes, for example [v0.1.1](release-notes-v0.1.1.md). Attach the clean ZIP and
 its checksum if desired. Set useful topics such as `knowledge-base`, `markdown`,
 `document-processing`, `claude-code` and `codex`. Add the actual repository link
 to any announcement only after the public URL exists.

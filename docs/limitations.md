@@ -10,11 +10,18 @@
 - DOCX body order and inline images are supported. Merged cells, floating objects,
   tracked changes, equations, charts, notes and unusual pagination need visual
   source comparison or a PDF export. Embedded links/media are not executed.
+  EMF/WMF drawings are not extracted; they are reported as failed images and
+  block filing until you supply a PNG export of that page or image.
+- WebP images are not supported, as sources or embedded images, because the
+  pinned PyMuPDF cannot decode them for the worker's image check. Convert them
+  to PNG or JPEG first.
 - Static HTML is supported. JavaScript, canvas, iframes, remote assets, inline SVG
   and audio/video need separately reviewed static material. Remote image failures
   are explicit; the extractor does not download them automatically.
-- Notebooks are read, not run. Interactive widgets and unsupported MIME output
-  may need a static export; missing output cannot be reconstructed honestly.
+- Notebooks are read, not run. SVG, WebP and PDF outputs are not described:
+  they leave a visible placeholder and are listed under `unsupported_outputs`.
+  Interactive widgets and other unsupported MIME output may need a static
+  export; missing output cannot be reconstructed honestly.
   Rmd rendering can execute code and remains an explicit, separate action.
 - Model CLI versions, protocols, feature flags and account access can change.
   Tested versions are listed, not a promise that every newer/older CLI works.
@@ -27,9 +34,9 @@
   Pandoc's math parsing can otherwise pair unintended dollar delimiters.
 - Markdown link/anchor validation covers common Markdown, not all HTML, renderer
   extensions or external URLs. Category symlinks are intentionally not followed.
-- macOS was exercised locally; Linux CI is configured but its first hosted run
-  occurs only after upload. Native Windows and a broad CLI-version matrix have
-  not been validated. There is no production security certification.
+- macOS was exercised locally and hosted CI runs the offline checks on Linux and
+  macOS. Native Windows and a broad CLI-version matrix have not been validated.
+  There is no production security certification.
 
 中文：主要限制是复杂版式与动态内容、模型输出的不确定性，以及仍需主 agent 和人工审阅。
 不要把验证通过理解为“零信息损失已被证明”。首版优先把来源、失败和检查结果讲清楚。

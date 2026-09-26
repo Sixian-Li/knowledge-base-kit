@@ -47,8 +47,11 @@ IMAGE_MIMES = {
     "image/png": ".png",
     "image/jpeg": ".jpg",
     "image/gif": ".gif",
-    "image/webp": ".webp",
 }
+# Visual outputs this extractor cannot hand to a worker (WebP is not decodable
+# by the pinned PyMuPDF). They are never dropped silently: the text gets a
+# visible placeholder and the metadata lists them under `unsupported_outputs`.
+UNSUPPORTED_VISUAL_MIMES = ("image/svg+xml", "image/webp", "application/pdf")
 
 # Rendered in this order when an output carries several representations.
 TEXT_MIMES = ("text/markdown", "text/latex", "text/plain", "text/html")
@@ -68,6 +71,13 @@ def as_text(value):
     return str(value)
 
 
+def fence(text, info=""):
+    """A fenced block that the content itself cannot close early."""
+    longest = max((len(run) for run in re.findall(r"`+", text)), default=0)
+    marker = "`" * max(3, longest + 1)
+    return [marker + info, text, marker]
+
+
 def strip_ansi(text):
     """Tracebacks are stored with the terminal colour codes still in them."""
     return ANSI_RE.sub("", text)
@@ -75,12 +85,16 @@ def strip_ansi(text):
 
 def load_cells(nb):
     """Return the cell list for nbformat 4, or flatten nbformat 3 worksheets."""
+    if not isinstance(nb, dict):
+        raise ValueError("Notebook JSON must be an object")
     if isinstance(nb.get("cells"), list):
-        return nb["cells"]
-    cells = []
-    for sheet in nb.get("worksheets") or []:
-        cells.extend(sheet.get("cells") or [])
-    return cells
+        cells = nb["cells"]
+    else:
+        cells = []
+        for sheet in nb.get("worksheets") or []:
+            if isinstance(sheet, dict):
+                cells.extend(sheet.get("cells") or [])
+    return [cell for cell in cells if isinstance(cell, dict)]
 
 
 def language_of(nb):
@@ -99,6 +113,7 @@ class ImageSink:
         os.makedirs(self.dir, exist_ok=True)
         self.files = []
         self.failed = []
+        self.unsupported = []
 
     def add(self, mime, payload, cell_index, origin):
         ext = IMAGE_MIMES[mime]
@@ -144,6 +159,13 @@ def render_data_bundle(data, cell_index, sink, origin, out):
                            f".extraction_metadata.json failed_images]")
             out.append("")
             wrote_image = True
+    for mime in UNSUPPORTED_VISUAL_MIMES:
+        if mime in data:
+            sink.unsupported.append({"cell_index": cell_index, "mime": mime, "origin": origin})
+            out.append(f"> [Output in {mime} not extracted — unsupported format; "
+                       f"review the source or export a PNG]")
+            out.append("")
+            wrote_image = True
 
     for mime in TEXT_MIMES:
         if mime not in data:
@@ -156,13 +178,9 @@ def render_data_bundle(data, cell_index, sink, origin, out):
         if wrote_image and mime == "text/plain" and TRIVIAL_REPR_RE.match(text):
             continue
         if mime == "text/plain":
-            out.append("```")
-            out.append(text)
-            out.append("```")
+            out.extend(fence(text))
         elif mime == "text/html":
-            out.append("```html")
-            out.append(text)
-            out.append("```")
+            out.extend(fence(text, "html"))
         else:
             out.append(text)
         out.append("")
@@ -178,6 +196,8 @@ def render_outputs(cell, cell_index, sink, out):
     """Render every output of one code cell, in order."""
     outputs = cell.get("outputs") or []
     for output in outputs:
+        if not isinstance(output, dict):
+            continue
         kind = output.get("output_type")
 
         if kind == "stream":
@@ -187,9 +207,7 @@ def render_outputs(cell, cell_index, sink, out):
                 continue
             out.append(f"**Output ({name})**")
             out.append("")
-            out.append("```")
-            out.append(text)
-            out.append("```")
+            out.extend(fence(text))
             out.append("")
 
         elif kind in ("execute_result", "display_data"):
@@ -211,9 +229,7 @@ def render_outputs(cell, cell_index, sink, out):
             out.append(f"**Error: {ename}: {evalue}**")
             out.append("")
             if traceback.strip():
-                out.append("```")
-                out.append(traceback.rstrip())
-                out.append("```")
+                out.extend(fence(traceback.rstrip()))
             out.append("")
 
         elif kind == "pyout" or kind == "pyerr":
@@ -272,9 +288,7 @@ def extract(nb, output_dir):
             label = f"In [{count}]" if count else "In [ ]"
             out.append(f"**{label}**")
             out.append("")
-            out.append(f"```{lang}")
-            out.append(source.rstrip())
-            out.append("```")
+            out.extend(fence(source.rstrip(), lang))
             out.append("")
             before = len(out)
             render_outputs(cell, i, sink, out)
@@ -284,9 +298,7 @@ def extract(nb, output_dir):
         elif kind == "raw":
             counts["raw"] += 1
             if source.strip():
-                out.append("```")
-                out.append(source.rstrip())
-                out.append("```")
+                out.extend(fence(source.rstrip()))
                 out.append("")
 
         elif kind == "heading":
@@ -373,6 +385,9 @@ def main():
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         print(f"Error: not a readable .ipynb ({exc})")
         sys.exit(1)
+    if not isinstance(nb, dict):
+        print("Error: not a readable .ipynb (top level is not a JSON object)")
+        sys.exit(1)
 
     if not load_cells(nb):
         print("Error: no cells found — is this really a notebook?")
@@ -386,6 +401,9 @@ def main():
     print(f"  -> {len(sink.files)} images decoded")
     if sink.failed:
         print(f"  !! {len(sink.failed)} image blobs failed to decode")
+    if sink.unsupported:
+        print(f"  !! {len(sink.unsupported)} visual outputs in unsupported formats "
+              f"(see unsupported_outputs); review them in the source")
 
     if stats["outputs_cleared"]:
         print("  !! outputs are CLEARED — this notebook was never run, or was "
@@ -405,6 +423,7 @@ def main():
         "total_pages": len(sink.files),
         "image_files": sink.files,
         "failed_images": sink.failed,
+        "unsupported_outputs": sink.unsupported,
         "skipped_pages": [],
         "summary": summary,
         "text_file": text_file,

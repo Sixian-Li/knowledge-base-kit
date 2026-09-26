@@ -212,6 +212,14 @@ print(json.dumps({{"is_error":False,"result":text}}) if backend=="claude" else j
         (final / "source.md").unlink()
         self.assertFalse(validate.check(final, self.cfg, filed=True)["ok"])
 
+    def test_converted_date_is_plain_iso_on_every_python(self):
+        for value in ("20260909", "2026-W37-3"):
+            with self.subTest(value=value):
+                self.document(self.work)
+                full = self.work / "full.md"
+                full.write_text(full.read_text().replace("converted: 2026-09-09", "converted: " + value))
+                self.assertIn("converted must be YYYY-MM-DD", validate.check(self.work, self.cfg)["errors"])
+
     def test_translated_heading_and_missing_anchor_are_rejected(self):
         self.document(self.work)
         p = self.work / "summary.md"

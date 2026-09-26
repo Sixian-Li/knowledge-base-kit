@@ -61,7 +61,8 @@ def check(backend, cfg=None, login=True):
         if name == backend and cli and login:
             command = [cli, "auth", "status"] if name == "claude" else [cli, "login", "status"]
             try:
-                proc = subprocess.run(command, capture_output=True, text=True, timeout=20)
+                proc = subprocess.run(command, capture_output=True, text=True, encoding="utf-8",
+                                      errors="replace", timeout=20)
                 if name == "claude":
                     data = json.loads(proc.stdout)
                     ok = proc.returncode == 0 and data.get("loggedIn") is True

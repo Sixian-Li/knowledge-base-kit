@@ -20,7 +20,11 @@ def atomic_write(path, data):
     with tempfile.NamedTemporaryFile(dir=path.parent, prefix=".install-", delete=False) as stream:
         pending = Path(stream.name)
         stream.write(data)
+    # NamedTemporaryFile creates 0600 files; give installed files normal permissions.
+    umask = os.umask(0)
+    os.umask(umask)
     try:
+        os.chmod(pending, 0o666 & ~umask)
         os.replace(pending, path)
     finally:
         pending.unlink(missing_ok=True)
@@ -90,8 +94,11 @@ def install(root, backend="both", language="en", dry_run=False, with_example=Fal
             current = digest(path.read_bytes())
             if key in owned:
                 continue  # configuration, catalog and rules belong to the user
-            expected = previous.get("managed", {}).get(key)
-            if current != digest(data) and current != expected:
+            # An interrupted install or update may leave either the previous or
+            # the planned version of a managed file; both are safe to replace.
+            expected = {previous.get("managed", {}).get(key),
+                        previous.get("pending_managed", {}).get(key)}
+            if current != digest(data) and current not in expected:
                 conflicts.append(key + " (locally edited)")
             elif current != digest(data):
                 writes.append(key)
@@ -118,6 +125,12 @@ def install(root, backend="both", language="en", dry_run=False, with_example=Fal
         if path.is_symlink():
             raise ValueError(f"Reserved directory must not be a symlink: {name}")
         path.mkdir(parents=True, exist_ok=True)
+    # Record the planned files before touching any, so a failed run can be retried.
+    state = {"schema": 1, "toolkit": "knowledge-base-kit", "backend": backend,
+             "version": (REPO / "VERSION").read_text(encoding="utf-8").strip(),
+             "managed": previous.get("managed", {}), "links": links, "pending": True,
+             "pending_managed": {k: digest(v) for k, v in managed.items()}}
+    atomic_write(state_path, (json.dumps(state, indent=2) + "\n").encode())
     payload = {**managed, **owned}
     for key in writes:
         atomic_write(root / key, payload[key])
@@ -127,7 +140,7 @@ def install(root, backend="both", language="en", dry_run=False, with_example=Fal
             path.parent.mkdir(parents=True, exist_ok=True)
             path.symlink_to(target, target_is_directory=True)
     state = {"schema": 1, "toolkit": "knowledge-base-kit", "backend": backend,
-             "version": (REPO / "VERSION").read_text().strip(),
+             "version": (REPO / "VERSION").read_text(encoding="utf-8").strip(),
              "managed": {k: digest(v) for k, v in managed.items()}, "links": links}
     atomic_write(state_path, (json.dumps(state, indent=2) + "\n").encode())
     return result

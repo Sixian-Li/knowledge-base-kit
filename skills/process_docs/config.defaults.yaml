@@ -23,4 +23,4 @@ LARGE_FILE_WARN_MB: 15
 MAX_CATEGORY_DEPTH: 7
 RELATED_PREFILTER_MIN: 10
 RMD_WHEN_NO_RENDER: ask
-SUPPORTED_FORMATS: .pdf,.docx,.html,.htm,.md,.txt,.ipynb,.rmd,.png,.jpg,.jpeg,.gif,.bmp,.webp,.tiff
+SUPPORTED_FORMATS: .pdf,.docx,.html,.htm,.md,.txt,.ipynb,.rmd,.png,.jpg,.jpeg,.gif,.bmp,.tif,.tiff

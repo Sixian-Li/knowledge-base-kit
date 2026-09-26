@@ -118,9 +118,11 @@ def tex_spans(path):
     pandoc decides what *is* math by the same rules a reader applies, so fenced
     blocks, inline code and bare currency ("$45") are excluded. Do not replace
     this with a local regex — telling math from those three is the whole job.
+    Each span keeps pandoc's display/inline mode: environments such as align
+    and commands such as \\tag are valid only in display math.
     """
     proc = subprocess.run(["pandoc", "-f", "markdown", "-t", "json", str(path)],
-                          capture_output=True, text=True, timeout=120)
+                          capture_output=True, text=True, encoding="utf-8", timeout=120)
     if proc.returncode != 0:
         raise RuntimeError("pandoc: " + proc.stderr.strip()[:200])
     found = []
@@ -128,7 +130,8 @@ def tex_spans(path):
     def walk(node):
         if isinstance(node, dict):
             if node.get("t") == "Math":
-                found.append(node["c"][1])
+                mode, tex = node["c"]
+                found.append({"tex": tex, "display": mode.get("t") == "DisplayMath"})
             for value in node.values():
                 walk(value)
         elif isinstance(node, list):
@@ -155,7 +158,7 @@ def tex_render_errors(path):
         if not spans:
             return [], 0, None
         proc = subprocess.run(["node", str(script)], input=json.dumps(spans),
-                              capture_output=True, text=True, timeout=120)
+                              capture_output=True, text=True, encoding="utf-8", timeout=120)
         if proc.returncode != 0:
             return [], 0, "check_tex.js: " + proc.stderr.strip()[:200]
         bad = json.loads(proc.stdout)
@@ -192,11 +195,15 @@ def check(doc_dir, cfg=None, target=None, filed=False):
         errors.append("Invalid category path")
     if len(parts) > int(cfg["MAX_CATEGORY_DEPTH"]):
         errors.append("Category exceeds MAX_CATEGORY_DEPTH")
+    # Python 3.11+ also accepts compact and week dates; keep one format everywhere.
+    converted = str(meta.get("converted", ""))
     try:
-        date.fromisoformat(str(meta.get("converted", "")))
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", converted):
+            raise ValueError(converted)
+        date.fromisoformat(converted)
     except ValueError:
         errors.append("converted must be YYYY-MM-DD")
-    template = (Path(__file__).resolve().parent.parent / "references/generation-templates.md").read_text()
+    template = (Path(__file__).resolve().parent.parent / "references/generation-templates.md").read_text(encoding="utf-8")
     formats = re.search(r"^format: <([^>]+)>", template, re.M)
     if not formats or meta.get("format") not in formats[1].split("|"):
         errors.append("format is not a label in generation-templates.md")
@@ -280,12 +287,12 @@ def check(doc_dir, cfg=None, target=None, filed=False):
         errors.append("summary.md must link to full.md")
     if not filed and (doc / ".extraction_metadata.json").exists():
         try:
-            metadata = json.loads((doc / ".extraction_metadata.json").read_text())
+            metadata = json.loads((doc / ".extraction_metadata.json").read_text(encoding="utf-8"))
             if metadata.get("failed_images"):
                 errors.append("Source extraction contains failed images")
             expected = sorted(int(img["page"]) for img in metadata.get("image_files", []))
             if expected:
-                merged = (doc / ".image_descriptions.md").read_text()
+                merged = (doc / ".image_descriptions.md").read_text(encoding="utf-8")
                 present = sorted(map(int, re.findall(r"^##\s+Page\s+(\d+)\s*$", merged, re.M)))
                 if expected != present:
                     errors.append("Image descriptions do not cover the image manifest exactly")

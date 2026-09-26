@@ -88,7 +88,7 @@ def validate_manifest(metadata, doc_dir, cfg):
         path = (root / path).resolve() if not path.is_absolute() else path.resolve()
         if not path.is_relative_to(root):
             raise ValueError("Image path leaves the extraction directory")
-        if path.suffix.lower() not in (".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tiff"):
+        if path.suffix.lower() not in (".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tif", ".tiff"):
             raise ValueError("Image manifest contains an unsupported image type")
         result.append({**entry, "path": str(path)})
     return result

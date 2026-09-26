@@ -207,8 +207,13 @@ def _resolve(doc_rel, target):
     if not target:
         return None
     joined = posixpath.normpath(posixpath.join(doc_rel, target))
-    if joined.endswith(".md"):
+    # Only a document directory or its full.md / summary.md is a document edge.
+    # Attachments and category READMEs listed under References are ordinary links.
+    name = posixpath.basename(joined)
+    if name in ("full.md", "summary.md"):
         joined = posixpath.dirname(joined)
+    elif posixpath.splitext(name)[1]:
+        return None
     joined = joined.strip("/")
     if not joined or joined.startswith(".."):
         return None

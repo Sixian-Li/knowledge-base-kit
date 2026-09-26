@@ -1,6 +1,7 @@
 # Compatibility and validation record
 
-Release: **0.1.0**. Local validation date: **2026-09-23**.
+Release: **0.1.1**. Live backend validation: **2026-09-23** (0.1.0).
+Offline validation of 0.1.1: **2026-09-26**.
 
 | Component | Locally exercised version / result |
 | --- | --- |
@@ -34,11 +35,16 @@ source preservation, corrupt-image rejection, structural checks and TeX syntax.
 PDF pages and the DOCX example were rendered and visually inspected; DOCX used
 the available bundled LibreOffice renderer, not an unverified conversion claim.
 
-The CI matrix is configured for Python 3.10/3.13 on Ubuntu and macOS with Node 24.
-Those hosted jobs cannot be marked passed until the repository is uploaded and
-Actions actually runs. Only the local versions above have live backend evidence.
+Hosted GitHub Actions ran the offline suite, release check, offline demo and
+archive build for 0.1.0 on Ubuntu and macOS with Python 3.10/3.13 and Node 24;
+all four jobs passed. For 0.1.1 the offline suite (51 tests) passed locally on
+Python 3.10.20 and 3.13.9; see the repository's Actions page for its hosted runs.
+0.1.1 changes extraction, validation and installation, not the worker protocol;
+the live backend runs above were not repeated. Only the local versions above
+have live backend evidence.
 Native Windows, older CLIs, Rmd execution, Chinese live worker output and complex
 real-world format variants have not been tested as part of this release.
 
 中文：双后端各两页、共四次真实 worker 首试通过；自动测试不调用模型。以上是实际测试记录，
-不是对所有系统、CLI 版本和文档的兼容性承诺。GitHub 托管 CI 要上传后才有真实结果。
+不是对所有系统、CLI 版本和文档的兼容性承诺。0.1.0 的四组 GitHub 托管 CI 已全部通过；
+0.1.1 未改 worker 协议，未重跑真实 worker，离线测试在 Python 3.10/3.13 本地通过。
