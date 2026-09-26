@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Dependencies: beautifulsoup4 4.15.0 (runtime; offline suite passes and the HTML
+  example extracts identically to 4.13.5) and reportlab 5.0.1 (example builder
+  only; regenerated `sample.pdf` is byte-identical).
+
 ## 0.1.1
 
 Bug-fix release; no worker protocol or configuration-key changes.

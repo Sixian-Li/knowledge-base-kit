@@ -11,7 +11,7 @@ Offline validation of 0.1.1: **2026-09-26**.
 | Pandoc | 3.8 |
 | PyMuPDF | 1.28.2 |
 | python-docx | 1.2.0 |
-| Beautiful Soup | 4.13.5 |
+| Beautiful Soup | 4.15.0 on main (offline suite and HTML example); 4.13.5 in the live runs |
 | html2text | 2025.4.15 |
 | PyYAML | 6.0.3 |
 | Bundled KaTeX | 0.18.7; exact distribution hash verified |
