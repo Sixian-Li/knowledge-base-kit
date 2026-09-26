@@ -1,0 +1,26 @@
+# Paths are resolved against the workspace kb.config.yaml, never the checkout.
+KB_ROOT: .
+SYSTEM_DIR: system
+INPUT_DIR: inbox
+WORK_DIR: inbox/.work
+CATALOG: catalog.md
+TRASH_DIR: .trash
+DRAFT_DIR: .drafts
+PYTHON: auto
+CLAUDE_CLI: auto
+CODEX_CLI: auto
+# null uses the CLI's isolated default. Choose an available vision model explicitly
+# in your workspace to make runs repeatable. No account credentials belong here.
+WORKER_MODEL: null
+CODEX_WORKER_MODEL: null
+CODEX_WORKER_REASONING_EFFORT: null
+OUTPUT_LANGUAGE: en
+WORKER_TIMEOUT: 180
+MAX_IMAGE_MB: 8
+RENDER_ALL_PAGES: true
+SHARD_THRESHOLD: 30000
+LARGE_FILE_WARN_MB: 15
+MAX_CATEGORY_DEPTH: 7
+RELATED_PREFILTER_MIN: 10
+RMD_WHEN_NO_RENDER: ask
+SUPPORTED_FORMATS: .pdf,.docx,.html,.htm,.md,.txt,.ipynb,.rmd,.png,.jpg,.jpeg,.gif,.bmp,.webp,.tiff

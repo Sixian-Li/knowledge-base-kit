@@ -1,0 +1,7 @@
+# Paths are relative to this configuration file. See the installed defaults for
+# the complete list of options. Existing configuration survives re-initialization.
+KB_ROOT: .
+OUTPUT_LANGUAGE: {{OUTPUT_LANGUAGE}}
+WORKER_MODEL: null
+CODEX_WORKER_MODEL: null
+CODEX_WORKER_REASONING_EFFORT: null
