@@ -17,6 +17,11 @@ VERSION
 constraints.txt
 docs/announcement-draft.md
 docs/architecture.md
+docs/assets/README.md
+docs/assets/overview.svg
+docs/assets/overview.zh-CN.svg
+docs/assets/workflow.svg
+docs/assets/workflow.zh-CN.svg
 docs/compatibility.md
 docs/configuration.md
 docs/installation.md
@@ -42,6 +47,7 @@ release-files.txt
 requirements-dev.txt
 requirements.txt
 scripts/build_examples.py
+scripts/build_readme_assets.py
 scripts/build_release.py
 scripts/init_workspace.py
 scripts/offline_demo.py

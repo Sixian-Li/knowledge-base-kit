@@ -6,15 +6,15 @@
 
 [English](README.md) · [安装](docs/installation.md) · [示例](examples/README.md) · [已知限制](docs/limitations.md)
 
-![接收、校验、发布或修改的流程](examples/sources/workflow.png)
+![原始资料经 Claude Code 或 Codex 整理和审核，形成保留原件、全文、摘要与目录的本地知识库。](docs/assets/overview.zh-CN.svg)
 
 ## 提供什么
 
-- 项目内的 `process_docs` 写入技能和 `kb` 读取技能，两种 agent 共用一份实现。
-- PDF、DOCX、静态 HTML、Notebook、文本和图片的提取脚本。
-- 一图一 worker，显式选择后端、超时停止、最多一次重试、按来源校验缓存。
-- 入库前检查文档结构、链接、原文存档折叠和 TeX 公式。
-- 工具仓库与私人资料库分开，方便升级和分享。
+- **共用的 agent 技能。** 项目内的 `process_docs` 写入技能和 `kb` 读取技能，两种 agent 共用一份实现。
+- **多格式内容提取。** 支持 PDF、DOCX、静态 HTML、Notebook、文本和图片。
+- **隔离的图片 worker。** 一图一 worker，显式选择后端、超时停止、最多一次重试、按来源校验缓存。
+- **入库前校验。** 检查文档结构、链接、原文存档折叠和 TeX 公式。
+- **独立的资料工作区。** 工具仓库与私人资料库分开，方便升级和分享。
 
 这是 **agent 辅助的工作流**：主 agent 负责撰写与核对全文、摘要，脚本负责提取、
 图片 worker 和校验。它不是无人审核的一键入库引擎；结构校验不能证明内容完整、准确。
@@ -37,12 +37,16 @@ python kb.py check --backend codex
 使用 Claude 时改为 `--backend claude`，两者都用则选 `both`。初始化器会复制技能，
 建立项目内的相对软链接；不会修改全局 agent 配置或另一个知识库，也不会接管已有的陌生目录。
 
+### 处理第一篇文档
+
 在 `my-kb` 中打开 agent，输入：
 
 > 使用本项目的 process_docs 技能和 Codex 后端处理 inbox/quickstart.md。生成全文和摘要，
 > 展示建议分类、草稿和具体改动文件，等我审核后再入库。
 
-只想先看效果，可以在工具仓库目录运行完全离线的演示：
+### 先试离线演示
+
+只想先看效果，可以在安装依赖和 Node/Pandoc 后，从工具仓库目录运行完全离线的演示：
 
 ```sh
 python scripts/offline_demo.py ../kb-demo
@@ -52,16 +56,14 @@ python scripts/offline_demo.py ../kb-demo
 执行了 AI 生成**。可先看[参考全文](examples/expected-output/quickstart/full.md)与
 [参考摘要](examples/expected-output/quickstart/summary.md)。
 
-## 日常流程
+## 工作原理
 
-1. 原稿放入工作区 `inbox/`。
-2. 在临时目录提取内容；有图片时按单张调用指定后端。
-3. 主 agent 对照来源，生成全文、摘要、分类与关联方案。
-4. 完成结构、公式、链接与来源核对，按已有授权执行入库。
-5. 更新 catalog 和双向关联，保留原件与可恢复备份。
-6. 读取时先查目录，再看摘要，必要时展开全文。
+![提取原稿，有图片时一图一 worker；主 agent 对照来源撰写全文和摘要，核对与校验后入库并更新关联，需要修改时返回草稿。](docs/assets/workflow.zh-CN.svg)
 
-[工作流](docs/workflows.md)说明操作细节；[架构](docs/architecture.md)解释脚本与 agent 的边界。
+工作区包含 `inbox/`、`catalog.md`、知识分类和独立的 `.kbkit/` 安装目录。
+每篇文档保留 `full.md`、`summary.md` 和原始附件，每个分类都有 `README.md`。
+读取时先查目录，再看摘要，必要时展开全文。[架构](docs/architecture.md)解释脚本与 agent 的边界；
+[工作流](docs/workflows.md)说明操作细节。
 
 ## 配置与隐私
 
@@ -72,7 +74,7 @@ python scripts/offline_demo.py ../kb-demo
 “本地知识库”指文件保存在本地，不代表模型推理完全离线。不要把自己的资料工作区、日志或
 账号信息提交到本工具仓库。详见[配置](docs/configuration.md)与[安全说明](SECURITY.md)。
 
-## 开发与发布
+## 开发
 
 ```sh
 python -m pip install -r requirements-dev.txt
@@ -80,9 +82,8 @@ python -m unittest discover -s tests -v
 python scripts/validate_release.py
 ```
 
-自动化测试不需要模型账户。贡献方式见 [CONTRIBUTING](CONTRIBUTING.md)，发布步骤见
-[GitHub 发布指南](docs/publishing.md)。更复杂的 DOCX 排版、动态网页、Notebook 交互输出等
-仍需人工处理；完整范围见[已知限制](docs/limitations.md)。
+测试离线运行，使用模拟 CLI 进程；GitHub Actions 无需模型凭据即可执行相同检查。
+详见[贡献指南](CONTRIBUTING.md)、[维护说明](docs/maintaining.md)与[发布指南](docs/publishing.md)。
 
 ## 许可证
 

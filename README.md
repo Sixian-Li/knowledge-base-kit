@@ -6,16 +6,16 @@ Code or Codex.** Keep the original attachment, a detailed `full.md`, a practical
 
 [简体中文](README.zh-CN.md) · [Install](docs/installation.md) · [Examples](examples/README.md) · [Limitations](docs/limitations.md)
 
-![A reviewable workflow: Intake, Validate, then Publish or Revise](examples/sources/workflow.png)
+![Original documents become reviewed Markdown with Claude Code or Codex; the local knowledge base keeps the source, full text, summary and catalog.](docs/assets/overview.svg)
 
 ## What you get
 
-- Project-local `process_docs` and `kb` skills, shared by both agents.
-- Extraction helpers for PDFs, DOCX, static HTML, notebooks, text and images.
-- One image per isolated worker session, explicit backend selection, bounded
+- **Shared agent skills.** Project-local `process_docs` and `kb` skills for both agents.
+- **Document extraction.** Helpers for PDFs, DOCX, static HTML, notebooks, text and images.
+- **Isolated image workers.** One image per session, explicit backend selection, bounded
   retries and provenance-aware caches.
-- Structure, link, archive-folding and TeX checks before filing.
-- A separate knowledge workspace: your documents stay outside this toolkit repo.
+- **Checks before filing.** Structure, links, archive folding and TeX validation.
+- **A separate workspace.** Your documents stay outside this toolkit repository.
 
 This is an **agent-assisted workflow**, not a hosted service or an automatic
 one-command ingestion engine. The main agent writes and reviews the full text and
@@ -44,11 +44,15 @@ Add `--language zh-CN` for Chinese summaries. The installer copies skills and us
 relative project-local links; it does not edit global agent settings or another
 knowledge base. It refuses an unrelated nonempty destination.
 
+### Process your first document
+
 Open `my-kb` in your chosen agent and ask:
 
 > Use the local process_docs skill with the Codex backend to process
 > inbox/quickstart.md. Prepare the full document and summary, show me the proposed
 > category and changed files, and wait for my review before filing.
+
+### Try it offline
 
 For a first look **without an account or model calls**, run this from the toolkit
 folder after installing dependencies and Node/Pandoc:
@@ -64,16 +68,7 @@ and [summary](examples/expected-output/quickstart/summary.md).
 
 ## How it works
 
-```mermaid
-flowchart LR
-    A[Source + original attachment] --> B[Static extraction]
-    B --> C[One worker per image]
-    B --> D[Main agent drafts full + summary]
-    C --> D
-    D --> E[Source review + validation]
-    E --> F[Reviewed filing + catalog]
-    F --> G[Read catalog → summary → full]
-```
+![Extract sources and describe images when needed; the main agent drafts full text and a summary, you review and validate, then file the document and update its links. Revise the draft when needed.](docs/assets/workflow.svg)
 
 Your workspace contains `inbox/`, `catalog.md`, knowledge categories and a private
 `.kbkit/` installation. A document has `full.md`, `summary.md` and its original

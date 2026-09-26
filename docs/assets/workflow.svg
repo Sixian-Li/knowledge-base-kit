@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="586" viewBox="0 0 1120 586" role="img" aria-labelledby="title desc" lang="en">
+<title id="title">From inbox to reviewed knowledge.</title>
+<desc id="desc">Extract sources, using one worker per image when needed. The main agent drafts full text and a summary against the sources. Review the sources and proposed filing, and validate structure, links and TeX. Revise the draft when needed; after review, file the document, keep the original, and update the catalog and related-document links.</desc>
+<style>text { font-kerning: normal; }
+@media (prefers-color-scheme: dark) {
+  .fill-bg { fill: #101820; } .stroke-bg { stroke: #101820; }
+  .fill-ink { fill: #e3edf3; } .stroke-ink { stroke: #e3edf3; }
+  .fill-muted { fill: #a1b4bf; } .stroke-muted { stroke: #a1b4bf; }
+  .fill-line { fill: #344854; } .stroke-line { stroke: #344854; }
+  .fill-paper { fill: #192630; } .stroke-paper { stroke: #192630; }
+  .fill-blue { fill: #99c7f0; } .stroke-blue { stroke: #99c7f0; }
+  .fill-blue-soft { fill: #20374b; } .stroke-blue-soft { stroke: #20374b; }
+  .fill-teal { fill: #82d9bb; } .stroke-teal { stroke: #82d9bb; }
+  .fill-teal-soft { fill: #193c35; } .stroke-teal-soft { stroke: #193c35; }
+  .fill-amber { fill: #edbd7d; } .stroke-amber { stroke: #edbd7d; }
+  .fill-amber-soft { fill: #3b2f22; } .stroke-amber-soft { stroke: #3b2f22; }
+}</style>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse"><path d="M1 1L6 4L1 7" fill="none" stroke="#586c78" class="stroke-muted" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<marker id="revise" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#985818" class="stroke-amber" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="1" y="1" width="1118" height="584" rx="20" fill="#fbfcfd" class="fill-bg stroke-line" stroke="#d7e2e8"/>
+<text x="48" y="43" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="14" font-weight="600" fill="#147566" class="fill-teal" letter-spacing="1.6">A REVIEWABLE WORKFLOW</text>
+<text x="48" y="98" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="35" font-weight="650" fill="#19313f" class="fill-ink">From inbox to reviewed knowledge.</text>
+<text x="48" y="135" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="20" font-weight="400" fill="#586c78" class="fill-muted">Scripts prepare the material. The main agent drafts. You review the result.</text>
+<path d="M910 225V198Q910 186 898 186H546Q534 186 534 198V225" fill="none" stroke="#985818" class="stroke-amber" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#revise)" stroke-dasharray="5 6"/>
+<rect x="644" y="170" width="212" height="28" rx="0" fill="#fbfcfd" class="fill-bg"/>
+<text x="656" y="190" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="500" fill="#985818" class="fill-amber">Revise when needed</text>
+<rect x="48" y="225" width="304" height="218" rx="16" fill="#eaf2fa" class="fill-blue-soft"/>
+<g transform="translate(70 246) scale(1)">
+<path d="M6 3H17L24 10V29H6Z M17 3V10H24 M11 16H19 M11 21H19" fill="none" stroke="#285d92" class="stroke-blue" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="294" y="272" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="17" font-weight="600" fill="#285d92" class="fill-blue">01</text>
+<text x="70" y="311" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="24" font-weight="600" fill="#19313f" class="fill-ink">Extract sources</text>
+<text x="70" y="349" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">Extract text and render pages.</text>
+<text x="70" y="376" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">One worker per image, if needed.</text>
+<text x="70" y="415" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="12.5" font-weight="600" fill="#285d92" class="fill-blue" letter-spacing="0.6">SCRIPTS + IMAGE WORKERS</text>
+<rect x="408" y="225" width="304" height="218" rx="16" fill="#ffffff" class="fill-paper stroke-line" stroke="#d7e2e8"/>
+<g transform="translate(430 246) scale(1)">
+<path d="M5 7H21V28H5Z M11 3H27V23 M10 13H16 M10 18H16 M10 23H14" fill="none" stroke="#147566" class="stroke-teal" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="654" y="272" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="17" font-weight="600" fill="#147566" class="fill-teal">02</text>
+<text x="430" y="311" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="24" font-weight="600" fill="#19313f" class="fill-ink">Draft in context</text>
+<text x="430" y="349" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">The main agent uses the sources</text>
+<text x="430" y="376" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">to write full text and a summary.</text>
+<text x="430" y="415" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="12.5" font-weight="600" fill="#147566" class="fill-teal" letter-spacing="0.6">MAIN AGENT</text>
+<rect x="768" y="225" width="304" height="218" rx="16" fill="#fff5e7" class="fill-amber-soft"/>
+<g transform="translate(790 246) scale(1)">
+<path d="M28 16A12 12 0 1 1 4 16A12 12 0 1 1 28 16 M10 16L14 20L22 12" fill="none" stroke="#985818" class="stroke-amber" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="1014" y="272" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="17" font-weight="600" fill="#985818" class="fill-amber">03</text>
+<text x="790" y="311" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="24" font-weight="600" fill="#19313f" class="fill-ink">Review &amp; validate</text>
+<text x="790" y="349" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">Check sources, structure, links</text>
+<text x="790" y="376" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">and TeX; review the filing plan.</text>
+<text x="790" y="415" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="12.5" font-weight="600" fill="#985818" class="fill-amber" letter-spacing="0.6">YOU + VALIDATORS</text>
+<path d="M366 332H393" fill="none" stroke="#586c78" class="stroke-muted" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M726 332H753" fill="none" stroke="#586c78" class="stroke-muted" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M920 443V477" fill="none" stroke="#586c78" class="stroke-muted" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="942" y="469" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="15" font-weight="500" fill="#586c78" class="fill-muted">after review</text>
+<rect x="48" y="491" width="1024" height="68" rx="14" fill="#e8f5ef" class="fill-teal-soft"/>
+<g transform="translate(68 509) scale(1)">
+<path d="M3 8H13L17 12H29V27H3Z M3 8V5H13L17 9H27V12" fill="none" stroke="#147566" class="stroke-teal" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="122" y="519" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="22" font-weight="600" fill="#147566" class="fill-teal">File &amp; link</text>
+<text x="122" y="546" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="18" font-weight="400" fill="#586c78" class="fill-muted">Keep the original, update the catalog, and link related documents.</text>
+<text x="1010" y="532" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="19" font-weight="600" fill="#147566" class="fill-teal">04</text>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="558" viewBox="0 0 1120 558" role="img" aria-labelledby="title desc" lang="zh-CN">
+<title id="title">保留来源，让知识随时可查。</title>
+<desc id="desc">原始文档交给 Claude Code 或 Codex 提取、撰写和核对；经审核后存入本地知识库，保留原件、全文、摘要和目录。读取时依次查阅目录、摘要和全文。</desc>
+<style>text { font-kerning: normal; }
+@media (prefers-color-scheme: dark) {
+  .fill-bg { fill: #101820; } .stroke-bg { stroke: #101820; }
+  .fill-ink { fill: #e3edf3; } .stroke-ink { stroke: #e3edf3; }
+  .fill-muted { fill: #a1b4bf; } .stroke-muted { stroke: #a1b4bf; }
+  .fill-line { fill: #344854; } .stroke-line { stroke: #344854; }
+  .fill-paper { fill: #192630; } .stroke-paper { stroke: #192630; }
+  .fill-blue { fill: #99c7f0; } .stroke-blue { stroke: #99c7f0; }
+  .fill-blue-soft { fill: #20374b; } .stroke-blue-soft { stroke: #20374b; }
+  .fill-teal { fill: #82d9bb; } .stroke-teal { stroke: #82d9bb; }
+  .fill-teal-soft { fill: #193c35; } .stroke-teal-soft { stroke: #193c35; }
+  .fill-amber { fill: #edbd7d; } .stroke-amber { stroke: #edbd7d; }
+  .fill-amber-soft { fill: #3b2f22; } .stroke-amber-soft { stroke: #3b2f22; }
+}</style>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse"><path d="M1 1L6 4L1 7" fill="none" stroke="#586c78" class="stroke-muted" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<marker id="revise" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#985818" class="stroke-amber" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="1" y="1" width="1118" height="556" rx="20" fill="#fbfcfd" class="fill-bg stroke-line" stroke="#d7e2e8"/>
+<text x="48" y="43" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="14" font-weight="600" fill="#147566" class="fill-teal" letter-spacing="1.6">从原稿到知识</text>
+<text x="840" y="43" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="14" font-weight="500" fill="#586c78" class="fill-muted" letter-spacing="0.6">CLAUDE CODE / CODEX</text>
+<text x="48" y="100" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="35" font-weight="650" fill="#19313f" class="fill-ink">保留来源，让知识随时可查。</text>
+<text x="48" y="138" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="20" font-weight="400" fill="#586c78" class="fill-muted">原始文件、经过核对的 Markdown，以及 agent 能逐层查阅的目录。</text>
+<path d="M48 172H1072" fill="none" stroke="#d7e2e8" class="stroke-line" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="48" y="210" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="14" font-weight="600" fill="#586c78" class="fill-muted" letter-spacing="0.8">01 / 原始资料</text>
+<text x="372" y="210" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="14" font-weight="600" fill="#586c78" class="fill-muted" letter-spacing="0.8">02 / AGENT 整理</text>
+<text x="768" y="210" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="14" font-weight="600" fill="#586c78" class="fill-muted" letter-spacing="0.8">03 / 本地知识库</text>
+<rect x="48" y="245" width="48" height="48" rx="12" fill="#eaf2fa" class="fill-blue-soft"/>
+<g transform="translate(56 253) scale(1)">
+<path d="M6 3H17L24 10V29H6Z M17 3V10H24 M11 16H19 M11 21H19" fill="none" stroke="#285d92" class="stroke-blue" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="111" y="262" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="23" font-weight="600" fill="#19313f" class="fill-ink">文档</text>
+<text x="111" y="288" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">PDF · DOCX · HTML</text>
+<rect x="48" y="321" width="48" height="48" rx="12" fill="#eaf2fa" class="fill-blue-soft"/>
+<g transform="translate(56 329) scale(1)">
+<path d="M8 4H26V28H8Z M4 9H11 M4 16H11 M4 23H11 M16 11H21 M16 17H21" fill="none" stroke="#285d92" class="stroke-blue" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="111" y="338" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="23" font-weight="600" fill="#19313f" class="fill-ink">笔记本</text>
+<text x="111" y="364" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">IPYNB · R Markdown</text>
+<rect x="48" y="397" width="48" height="48" rx="12" fill="#eaf2fa" class="fill-blue-soft"/>
+<g transform="translate(56 405) scale(1)">
+<path d="M4 5H28V27H4Z M4 23L12 15L18 21L23 16L28 21 M21 10H21.01" fill="none" stroke="#285d92" class="stroke-blue" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="111" y="414" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="23" font-weight="600" fill="#19313f" class="fill-ink">文本与图片</text>
+<text x="111" y="440" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="17" font-weight="400" fill="#586c78" class="fill-muted">Markdown · 图片</text>
+<path d="M315 346H350" fill="none" stroke="#586c78" class="stroke-muted" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="372" y="236" width="324" height="220" rx="16" fill="#ffffff" class="fill-paper stroke-line" stroke="#d7e2e8"/>
+<g transform="translate(394 259) scale(1)">
+<path d="M5 7H21V28H5Z M11 3H27V23 M10 13H16 M10 18H16 M10 23H14" fill="none" stroke="#147566" class="stroke-teal" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="441" y="282" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="23" font-weight="600" fill="#19313f" class="fill-ink">整理、核对、审核</text>
+<path d="M396 304H672" fill="none" stroke="#d7e2e8" class="stroke-line" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M397 331l4 4l8 -9" fill="none" stroke="#147566" class="stroke-teal" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="425" y="338" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="19" font-weight="400" fill="#19313f" class="fill-ink">提取内容，撰写草稿</text>
+<path d="M397 370l4 4l8 -9" fill="none" stroke="#147566" class="stroke-teal" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="425" y="377" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="19" font-weight="400" fill="#19313f" class="fill-ink">对照原稿核查内容</text>
+<path d="M397 409l4 4l8 -9" fill="none" stroke="#147566" class="stroke-teal" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="425" y="416" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="19" font-weight="400" fill="#19313f" class="fill-ink">审核分类与入库改动</text>
+<path d="M710 346H746" fill="none" stroke="#586c78" class="stroke-muted" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="768" y="236" width="304" height="220" rx="16" fill="#e8f5ef" class="fill-teal-soft"/>
+<g transform="translate(790 253) scale(1)">
+<path d="M3 8H13L17 12H29V27H3Z M3 8V5H13L17 9H27V12" fill="none" stroke="#147566" class="stroke-teal" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="837" y="278" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="23" font-weight="600" fill="#147566" class="fill-teal">my-kb/</text>
+<path d="M790 297H1050" fill="none" stroke="#d7e2e8" class="stroke-line" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M797 316V342H811 M821 361V428 M821 369H835 M821 398H835 M821 427H835" fill="none" stroke="#147566" class="stroke-teal" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="814" y="322" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="19" font-weight="400" fill="#19313f" class="fill-ink">catalog.md</text>
+<text x="814" y="351" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="19" font-weight="400" fill="#19313f" class="fill-ink">topic/document/</text>
+<text x="841" y="376" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="18" font-weight="400" fill="#19313f" class="fill-ink">full.md</text>
+<text x="841" y="405" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="18" font-weight="400" fill="#19313f" class="fill-ink">summary.md</text>
+<text x="841" y="434" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="18" font-weight="400" fill="#19313f" class="fill-ink">original.pdf</text>
+<path d="M48 488H1072" fill="none" stroke="#d7e2e8" class="stroke-line" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="48" y="525" font-family="-apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, &#x27;Noto Sans CJK SC&#x27;, &#x27;PingFang SC&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif" font-size="14" font-weight="600" fill="#147566" class="fill-teal" letter-spacing="1">按需逐层读取</text>
+<text x="242" y="526" font-family="&#x27;SFMono-Regular&#x27;, Consolas, &#x27;Liberation Mono&#x27;, monospace" font-size="20" font-weight="400" fill="#19313f" class="fill-ink">catalog.md  →  summary.md  →  full.md</text>
+</svg>
