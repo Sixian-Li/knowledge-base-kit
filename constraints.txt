@@ -1,4 +1,4 @@
 # Runtime transitive versions from the isolated release environment.
 lxml==6.1.3
-soupsieve==2.9.2
+soupsieve==2.10
 typing_extensions==4.16.0
