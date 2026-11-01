@@ -1,6 +1,6 @@
 # Tested runtime dependencies. Install in a dedicated virtual environment.
 -c constraints.txt
-PyMuPDF==1.28.2
+PyMuPDF==2.0
 python-docx==1.2.0
 beautifulsoup4==4.15.0
 html2text==2025.4.15
